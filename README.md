@@ -24,7 +24,6 @@ python -m pip install dbt-postgres
 - Cek DBT sudah terinstal : 
 ```
 dbt --version
-
 ```
 
 # DBT Initialize
