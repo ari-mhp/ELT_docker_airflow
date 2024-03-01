@@ -4,6 +4,55 @@ Repository ini berisi project khusus Extract, Load, dan Transform (ELT) dengan m
 <br>
 <br>
 
+# PostgreSQL
+
+PostgreSQL yang digunakan sebagai database berada pada Docker Container. Untuk mengakses dan melihat database PostgreSQL, dapat menggunakan command berikut di terminal :
+```
+docker exec -it <nama-container> psql -U <username>
+```
+
+Contoh :
+```
+docker exec -it elt-airflow-destination_postgres-1 psql -U postgres
+```
+
+Setelah masuk ke PostgreSQL, dapat menggunakan command berikut :
+- \l = untuk melihat semua database\
+contoh hasil :
+```
+List of databases
+      Name      |  Owner   | Encoding |  Collate   |   Ctype    | ICU Locale | Locale Provider |   Access privileges
+----------------+----------+----------+------------+------------+------------+-----------------+-----------------------
+ destination_db | postgres | UTF8     | en_US.utf8 | en_US.utf8 |            | libc            |
+ postgres       | postgres | UTF8     | en_US.utf8 | en_US.utf8 |            | libc            |
+ template0      | postgres | UTF8     | en_US.utf8 | en_US.utf8 |            | libc            | =c/postgres          +
+                |          |          |            |            |            |                 | postgres=CTc/postgres
+ template1      | postgres | UTF8     | en_US.utf8 | en_US.utf8 |            | libc            | =c/postgres          +
+                |          |          |            |            |            |                 | postgres=CTc/postgres
+(4 rows)
+```
+- \c \<nama-database> = untuk mengakses/mengganti ke database yang dipilih
+- \dt = untuk melihat semua relasi tabel pada database\
+contoh :
+```
+             List of relations
+ Schema |      Name      | Type  |  Owner
+--------+----------------+-------+----------
+ public | actors         | table | postgres
+ public | film_actors    | table | postgres
+ public | film_category  | table | postgres
+ public | film_ratings   | table | postgres
+ public | films          | table | postgres
+ public | specific_movie | table | postgres
+ public | users          | table | postgres
+(7 rows)
+```
+- \\? = untuk melihat semua comand PostgreSQL
+- \q = untuk keluar dari PostgreSQL
+
+<br>
+<br>
+
 # DBT
 
 ## Install DBT (Windows)
@@ -73,51 +122,3 @@ Konfigurasi tersebut akan tersimpan di `C:\Users\<Username>\.dbt\profiles.yml`
 ```
 {{ <nama macro>() }}
 ```
-<br>
-<br>
-
-# PostgreSQL
-
-PostgreSQL yang digunakan sebagai database berada pada Docker Container. Untuk mengakses dan melihat database PostgreSQL, dapat menggunakan command berikut di terminal :
-```
-docker exec -it <nama-container> psql -U <username>
-```
-
-Contoh :
-```
-docker exec -it elt-airflow-destination_postgres-1 psql -U postgres
-```
-
-Setelah masuk ke PostgreSQL, dapat menggunakan command berikut :
-- \l = untuk melihat semua database\
-contoh hasil :
-```
-List of databases
-      Name      |  Owner   | Encoding |  Collate   |   Ctype    | ICU Locale | Locale Provider |   Access privileges
-----------------+----------+----------+------------+------------+------------+-----------------+-----------------------
- destination_db | postgres | UTF8     | en_US.utf8 | en_US.utf8 |            | libc            |
- postgres       | postgres | UTF8     | en_US.utf8 | en_US.utf8 |            | libc            |
- template0      | postgres | UTF8     | en_US.utf8 | en_US.utf8 |            | libc            | =c/postgres          +
-                |          |          |            |            |            |                 | postgres=CTc/postgres
- template1      | postgres | UTF8     | en_US.utf8 | en_US.utf8 |            | libc            | =c/postgres          +
-                |          |          |            |            |            |                 | postgres=CTc/postgres
-(4 rows)
-```
-- \c \<nama-database> = untuk mengakses/mengganti ke database yang dipilih
-- \dt = untuk melihat semua relasi tabel pada database\
-contoh :
-```
-             List of relations
- Schema |      Name      | Type  |  Owner
---------+----------------+-------+----------
- public | actors         | table | postgres
- public | film_actors    | table | postgres
- public | film_category  | table | postgres
- public | film_ratings   | table | postgres
- public | films          | table | postgres
- public | specific_movie | table | postgres
- public | users          | table | postgres
-(7 rows)
-```
-- \\? = untuk melihat semua comand PostgreSQL
-- \q = untuk keluar dari PostgreSQL
