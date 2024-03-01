@@ -1,0 +1,42 @@
+name: elt-airflow # nama custom pada container stack, bukan nama folder (default)
+services:
+  source_postgres:
+    image: postgres:15 # image yang dipakai
+    ports:
+      - "5433:5432" # post <host>:<container> default postgre 5432
+    networks:
+      - elt_net # network untuk menghubungkan antar container, harus dibuat dulu
+    environment:
+      # key-value untuk digunakan pada proses yg berjalan di container
+      - POSTGRES_DB=source_db # untuk database name
+      - POSTGRES_USER=postgres # untuk user root name
+      - POSTGRES_PASSWORD=secret # untuk user root password
+    volumes:
+      # menghubungkan folder di host dan container
+      - ./init_source_db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  destination_postgres:
+    image: postgres:15
+    ports:
+      - "5434:5432" # post <host> harus beda
+    networks:
+      - elt_net # menggunakan network yang sama dengan source
+    env_file:
+      # cara lain untuk menulis environtment, ditulis di berkas lain
+      - postgres.env
+
+  elt_script: # python script untuk proses ELT
+    build:
+      context: ./elt # path folder yang berisi Dockerfile dan elt_script.py
+      dockerfile: Dockerfile # path nama file Dockerfile jika diganti, default = Dockerfile
+    command: ["python", "elt_script.py"] # default command yang akan dieksekusi saat menjalankan container
+    networks:
+      - elt_net
+    depends_on:
+      # list services yang harus selesai dulu baru menjalankan service elt_script
+      - source_postgres
+      - destination_postgres
+
+networks:
+  elt_net: # network dibuat disini, terpisah dari services
+    driver: bridge
