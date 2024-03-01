@@ -78,7 +78,7 @@ Konfigurasi tersebut akan tersimpan di `C:\Users\<Username>\.dbt\profiles.yml`
 
 # PostgreSQL
 
-Untuk melihat database pada PostgreSQL dapat dilakukan menggunakan command berikut di terminal :
+PostgreSQL yang digunakan sebagai database berada pada Docker Container. Untuk mengakses dan melihat database PostgreSQL, dapat menggunakan command berikut di terminal :
 ```
 docker exec -it <nama-container> psql -U <username>
 ```
