@@ -1,8 +1,12 @@
 # ELT Docker with Airflow and DBT
 
 Repository ini berisi project khusus Extract, Load, dan Transform (ELT) dengan menggunakan Docker, PostgreSQL untuk database, framework Data Build Tool (DBT) dan Apache Airflow
+<br>
+<br>
 
-# Install DBT (Windows)
+# DBT
+
+## Install DBT (Windows)
 
 - Pastikan sudah terinstal python di windows [(Python)](https://www.python.org/)
 - Buat virtual environtment python : 
@@ -26,7 +30,7 @@ python -m pip install dbt-postgres
 dbt --version
 ```
 
-# DBT Initialize
+## DBT Initialize
 
 Setelah install DBT, selanjutnya initialize DBT di folder project
 ```
@@ -47,8 +51,30 @@ Konfigurasi tersebut akan tersimpan di `C:\Users\<Username>\.dbt\profiles.yml`
 
 - Selanjutnya buka folder DBT project -> dbt_project.yml
 - Pada bagian models -> custom_postgres -> example -> +materialized: view
-- Ganti `view` dengan `table` agar hasil dari dbt terlihat
+- Ganti `view` dengan `table` agar hasil dari DBT terlihat
 
+## Models
+- Model yang akan dibuat dari database target DBT tersimpan di folder `models/example` yang berupa file SQL.
+- Pada folder tersebut terdapat file `sources.yml` yang berisi tentang sumber data yang digunakan untuk DBT
+- Juga terdapat file `schema.yml` yang berisi tentang skema dari model yang dibuat, terdiri dari tabel dengan masing-masing kolomnya.
+
+## Macros
+- Macro dapat mempermudah pengerjaan DBT, yaitu dengan menyimpan potongan kode yang dapat digunakan berkali-kali di file lain.
+- Tersimpan di folder `macros` dan berupa file SQL.
+- Untuk membuat macro dapat menggunakan penulisan berikut :
+```
+{% macro <nama macro>() %}
+
+    <Tulis potongan kode disini>
+
+{% endmacro %}
+```
+- Untuk menggunakan macro di file lain :
+```
+{{ <nama macro>() }}
+```
+<br>
+<br>
 
 # PostgreSQL
 
