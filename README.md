@@ -34,7 +34,7 @@ dbt init
 ```
 Lalu isikan konfigurasi berikut pada terminal :
 
-- dbt project = Isi nama project DBT
+- dbt project = custom_postgres (nama project DBT, bebas)
 - hostname = host.docker.internal (jika memakai Docker)
 - port = 5434 (Sesuaikan dengan port pada container pada host, bisa diganti sesuai port target DBT)
 - user = postgres (sesuaikan dengan target container)
