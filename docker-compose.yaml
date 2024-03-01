@@ -37,6 +37,25 @@ services:
       - source_postgres
       - destination_postgres
 
+  dbt:
+    image: ghcr.io/dbt-labs/dbt-postgres:1.4.7 # image yang dipakai
+    command:
+      # command saat menjalankan container -> dbt run --profiles-dir /root --project-dir /dbt
+      ["run", "--profiles-dir", "/root", "--project-dir", "/dbt"]
+    networks:
+      - elt_net
+    volumes:
+      - ./custom_postgres:/dbt # host:container
+      - ~./.dbt:/root # untuk dbt profile.yml
+    environment:
+      - DBT_PROFILE=default
+      - DBT_TARGET=dev
+    depends_on:
+      # list service yang harus selesai dulu, baru bisa menjalankan service dbt, sepertinya berurut dari atas
+      - source_postgres
+      - destination_postgres
+      - elt_script
+
 networks:
   elt_net: # network dibuat disini, terpisah dari services
     driver: bridge
